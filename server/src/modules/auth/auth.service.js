@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+﻿import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 
 import {
@@ -124,7 +124,7 @@ const validatePassword = (
     'string'
   ) {
     throw new Error(
-      'Geçerli bir şifre girilmelidir'
+      'GeÃ§erli bir ÅŸifre girilmelidir'
     );
   }
 
@@ -133,7 +133,7 @@ const validatePassword = (
     MIN_PASSWORD_LENGTH
   ) {
     throw new Error(
-      `Şifre en az ${MIN_PASSWORD_LENGTH} karakter olmalıdır`
+      `Åifre en az ${MIN_PASSWORD_LENGTH} karakter olmalÄ±dÄ±r`
     );
   }
 
@@ -142,12 +142,12 @@ const validatePassword = (
       .length === 0
   ) {
     throw new Error(
-      'Şifre yalnızca boşluk karakterlerinden oluşamaz'
+      'Åifre yalnÄ±zca boÅŸluk karakterlerinden oluÅŸamaz'
     );
   }
 
   /*
-   * bcrypt ilk 72 byte sonrasını işleyemez.
+   * bcrypt ilk 72 byte sonrasÄ±nÄ± iÅŸleyemez.
    * Sessiz truncation'a izin vermiyoruz.
    */
   if (
@@ -158,7 +158,7 @@ const validatePassword = (
     )
   ) {
     throw new Error(
-      'Şifre çok uzun. Lütfen daha kısa bir şifre kullanın.'
+      'Åifre Ã§ok uzun. LÃ¼tfen daha kÄ±sa bir ÅŸifre kullanÄ±n.'
     );
   }
 };
@@ -213,7 +213,7 @@ const validateRefreshTokenType = (
   /*
    * LEGACY TOKEN
    *
-   * Eski tokenlarda type alanı yoktu.
+   * Eski tokenlarda type alanÄ± yoktu.
    * Yeni tokenlarda type=refresh zorunlu.
    */
   if (
@@ -243,8 +243,8 @@ const validateTokenVersion = (
   /*
    * Eski JWT'lerde tokenVersion yok.
    *
-   * Legacy token yalnızca kullanıcının
-   * token_version değeri hâlâ 0 ise kabul edilir.
+   * Legacy token yalnÄ±zca kullanÄ±cÄ±nÄ±n
+   * token_version deÄŸeri hÃ¢lÃ¢ 0 ise kabul edilir.
    */
   if (
     decoded?.tokenVersion ===
@@ -300,7 +300,7 @@ export const authService = {
       !password
     ) {
       throw new Error(
-        'E-posta ve şifre gereklidir'
+        'E-posta ve ÅŸifre gereklidir'
       );
     }
 
@@ -330,26 +330,13 @@ export const authService = {
       isPasswordValid =
         false;
     }
-
-    console.log('LOGIN DEBUG', {
-      email: cleanEmail,
-      userFound: Boolean(user),
-      userId: user?.id ?? null,
-      hasPassword: Boolean(user?.password),
-      passwordLength: user?.password?.length ?? null,
-      passwordPrefix:
-        user?.password?.slice(0, 4) ?? null,
-      isPasswordValid,
-      isActive: user?.is_active ?? null,
-    });
-
-    if (
+if (
       !user ||
       !user.password ||
       !isPasswordValid
     ) {
       throw new Error(
-        'E-posta veya şifre hatalı'
+        'E-posta veya ÅŸifre hatalÄ±'
       );
     }
 
@@ -362,7 +349,7 @@ export const authService = {
       true
     ) {
       throw new Error(
-        'Hesabınız pasif durumda. Büro yöneticinizle iletişime geçin.'
+        'HesabÄ±nÄ±z pasif durumda. BÃ¼ro yÃ¶neticinizle iletiÅŸime geÃ§in.'
       );
     }
 
@@ -379,8 +366,8 @@ export const authService = {
     );
 
     /*
-     * Repository refresh tokenın SHA-256
-     * hash'ini saklıyor.
+     * Repository refresh tokenÄ±n SHA-256
+     * hash'ini saklÄ±yor.
      */
     await authRepository.updateRefreshToken(
       user.id,
@@ -428,7 +415,7 @@ export const authService = {
     }
 
     /*
-     * Mevcut access tokenları da geçersiz kıl.
+     * Mevcut access tokenlarÄ± da geÃ§ersiz kÄ±l.
      */
     increaseTokenVersion(
       user
@@ -437,7 +424,7 @@ export const authService = {
     await user.save();
 
     /*
-     * Server-side refresh tokenı iptal et.
+     * Server-side refresh tokenÄ± iptal et.
      */
     await authRepository.invalidateRefreshToken(
       refreshToken
@@ -467,7 +454,7 @@ export const authService = {
 
     try {
       /*
-       * Burada artık:
+       * Burada artÄ±k:
        *
        * - signature
        * - expiration
@@ -475,10 +462,10 @@ export const authService = {
        * - issuer
        * - refresh audience
        *
-       * doğrulanıyor.
+       * doÄŸrulanÄ±yor.
        *
-       * Eski iss/aud taşımayan tokenlara geçiş
-       * döneminde izin veriliyor.
+       * Eski iss/aud taÅŸÄ±mayan tokenlara geÃ§iÅŸ
+       * dÃ¶neminde izin veriliyor.
        */
       decoded =
         verifyToken(
@@ -507,7 +494,7 @@ export const authService = {
       }
 
       throw new Error(
-        'Geçersiz veya süresi dolmuş oturum'
+        'GeÃ§ersiz veya sÃ¼resi dolmuÅŸ oturum'
       );
     }
 
@@ -515,7 +502,7 @@ export const authService = {
       !decoded
     ) {
       throw new Error(
-        'Geçersiz veya süresi dolmuş oturum'
+        'GeÃ§ersiz veya sÃ¼resi dolmuÅŸ oturum'
       );
     }
 
@@ -549,7 +536,7 @@ export const authService = {
       }
 
       throw new Error(
-        'Oturum süreniz doldu. Lütfen tekrar giriş yapın.'
+        'Oturum sÃ¼reniz doldu. LÃ¼tfen tekrar giriÅŸ yapÄ±n.'
       );
     }
 
@@ -563,7 +550,7 @@ export const authService = {
       )
     ) {
       throw new Error(
-        'Geçersiz oturum türü'
+        'GeÃ§ersiz oturum tÃ¼rÃ¼'
       );
     }
 
@@ -580,7 +567,7 @@ export const authService = {
       !tokenUserId
     ) {
       throw new Error(
-        'Geçersiz oturum'
+        'GeÃ§ersiz oturum'
       );
     }
 
@@ -597,7 +584,7 @@ export const authService = {
       !user
     ) {
       throw new Error(
-        'Geçersiz veya süresi dolmuş oturum'
+        'GeÃ§ersiz veya sÃ¼resi dolmuÅŸ oturum'
       );
     }
 
@@ -627,7 +614,7 @@ export const authService = {
       }
 
       throw new Error(
-        'Geçersiz oturum'
+        'GeÃ§ersiz oturum'
       );
     }
 
@@ -653,7 +640,7 @@ export const authService = {
       }
 
       throw new Error(
-        'Kullanıcı hesabı aktif değil'
+        'KullanÄ±cÄ± hesabÄ± aktif deÄŸil'
       );
     }
 
@@ -681,7 +668,7 @@ export const authService = {
       }
 
       throw new Error(
-        'Oturum geçerliliğini kaybetti. Lütfen tekrar giriş yapın.'
+        'Oturum geÃ§erliliÄŸini kaybetti. LÃ¼tfen tekrar giriÅŸ yapÄ±n.'
       );
     }
 
@@ -716,7 +703,7 @@ export const authService = {
       !rotated
     ) {
       throw new Error(
-        'Geçersiz veya süresi dolmuş oturum'
+        'GeÃ§ersiz veya sÃ¼resi dolmuÅŸ oturum'
       );
     }
 
@@ -741,7 +728,7 @@ export const authService = {
       !userId
     ) {
       throw new Error(
-        'Kullanıcı bilgisi bulunamadı'
+        'KullanÄ±cÄ± bilgisi bulunamadÄ±'
       );
     }
 
@@ -754,7 +741,7 @@ export const authService = {
       !user
     ) {
       throw new Error(
-        'Kullanıcı bulunamadı'
+        'KullanÄ±cÄ± bulunamadÄ±'
       );
     }
 
@@ -763,7 +750,7 @@ export const authService = {
       true
     ) {
       throw new Error(
-        'Kullanıcı hesabı aktif değil'
+        'KullanÄ±cÄ± hesabÄ± aktif deÄŸil'
       );
     }
 
@@ -783,7 +770,7 @@ export const authService = {
       !currentPassword
     ) {
       throw new Error(
-        'Mevcut şifre gereklidir'
+        'Mevcut ÅŸifre gereklidir'
       );
     }
 
@@ -796,7 +783,7 @@ export const authService = {
       newPassword
     ) {
       throw new Error(
-        'Yeni şifre mevcut şifre ile aynı olamaz'
+        'Yeni ÅŸifre mevcut ÅŸifre ile aynÄ± olamaz'
       );
     }
 
@@ -809,7 +796,7 @@ export const authService = {
       !user
     ) {
       throw new Error(
-        'Kullanıcı bulunamadı'
+        'KullanÄ±cÄ± bulunamadÄ±'
       );
     }
 
@@ -817,7 +804,7 @@ export const authService = {
       !user.password
     ) {
       throw new Error(
-        'Kullanıcı şifresi bulunamadı'
+        'KullanÄ±cÄ± ÅŸifresi bulunamadÄ±'
       );
     }
 
@@ -831,13 +818,13 @@ export const authService = {
       !isPasswordValid
     ) {
       throw new Error(
-        'Mevcut şifre yanlış'
+        'Mevcut ÅŸifre yanlÄ±ÅŸ'
       );
     }
 
     /*
-     * Şifre değişince mevcut access tokenların
-     * tamamı geçersiz hale gelir.
+     * Åifre deÄŸiÅŸince mevcut access tokenlarÄ±n
+     * tamamÄ± geÃ§ersiz hale gelir.
      */
     user.password =
       newPassword;
@@ -849,7 +836,7 @@ export const authService = {
     await user.save();
 
     /*
-     * Mevcut refresh oturumlarını da kapat.
+     * Mevcut refresh oturumlarÄ±nÄ± da kapat.
      */
     await authRepository.invalidateAllRefreshTokens(
       userId
@@ -951,7 +938,7 @@ export const authService = {
       !token
     ) {
       throw new Error(
-        'Şifre sıfırlama bağlantısı geçersiz'
+        'Åifre sÄ±fÄ±rlama baÄŸlantÄ±sÄ± geÃ§ersiz'
       );
     }
 
@@ -968,7 +955,7 @@ export const authService = {
       !user
     ) {
       throw new Error(
-        'Şifre sıfırlama bağlantısı geçersiz veya süresi dolmuş'
+        'Åifre sÄ±fÄ±rlama baÄŸlantÄ±sÄ± geÃ§ersiz veya sÃ¼resi dolmuÅŸ'
       );
     }
 
@@ -997,7 +984,7 @@ export const authService = {
       }
 
       throw new Error(
-        'Şifre sıfırlama bağlantısının süresi dolmuş'
+        'Åifre sÄ±fÄ±rlama baÄŸlantÄ±sÄ±nÄ±n sÃ¼resi dolmuÅŸ'
       );
     }
 
@@ -1023,7 +1010,7 @@ export const authService = {
       }
 
       throw new Error(
-        'Kullanıcı hesabı aktif değil'
+        'KullanÄ±cÄ± hesabÄ± aktif deÄŸil'
       );
     }
 
@@ -1039,7 +1026,7 @@ export const authService = {
     );
 
     /*
-     * Reset token tek kullanımlık.
+     * Reset token tek kullanÄ±mlÄ±k.
      */
     user.password_reset_token =
       null;
@@ -1050,7 +1037,7 @@ export const authService = {
     await user.save();
 
     /*
-     * Bütün refresh oturumlarını da kapat.
+     * BÃ¼tÃ¼n refresh oturumlarÄ±nÄ± da kapat.
      */
     await authRepository.invalidateAllRefreshTokens(
       user.id
