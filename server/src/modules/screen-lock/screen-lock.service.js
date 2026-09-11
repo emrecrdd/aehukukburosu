@@ -938,7 +938,7 @@ export const screenLockService = {
           : 'PIN kodu hatalı.',
         blockedUntil
           ? 429
-          : 401,
+          : 423,
         blockedUntil
           ? 'SCREEN_PIN_COOLDOWN'
           : 'SCREEN_PIN_INVALID_CREDENTIALS',
