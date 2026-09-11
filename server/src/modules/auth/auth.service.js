@@ -331,6 +331,18 @@ export const authService = {
         false;
     }
 
+    console.log('LOGIN DEBUG', {
+      email: cleanEmail,
+      userFound: Boolean(user),
+      userId: user?.id ?? null,
+      hasPassword: Boolean(user?.password),
+      passwordLength: user?.password?.length ?? null,
+      passwordPrefix:
+        user?.password?.slice(0, 4) ?? null,
+      isPasswordValid,
+      isActive: user?.is_active ?? null,
+    });
+
     if (
       !user ||
       !user.password ||
