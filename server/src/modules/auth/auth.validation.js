@@ -1,4 +1,4 @@
-import {
+﻿import {
   body,
 } from 'express-validator';
 
@@ -8,19 +8,19 @@ import {
 
 const passwordValidation = (
   field,
-  label = 'Şifre'
+  label = 'Åifre'
 ) =>
   body(field)
     .isString()
     .withMessage(
-      `${label} geçerli olmalıdır`
+      `${label} geÃ§erli olmalÄ±dÄ±r`
     )
     .isLength({
       min: 12,
       max: 128,
     })
     .withMessage(
-      `${label} en az 12 karakter olmalıdır`
+      `${label} en az 12 karakter olmalÄ±dÄ±r`
     )
     .custom(
       (
@@ -33,7 +33,7 @@ const passwordValidation = (
           0
         ) {
           throw new Error(
-            `${label} yalnızca boşluk karakterlerinden oluşamaz`
+            `${label} yalnÄ±zca boÅŸluk karakterlerinden oluÅŸamaz`
           );
         }
 
@@ -56,15 +56,15 @@ export const authValidation = {
       .trim()
       .isEmail()
       .withMessage(
-        'Geçerli bir e-posta adresi giriniz'
+        'GeÃ§erli bir e-posta adresi giriniz'
       )
-      .normalizeEmail(),
+      .normalizeEmail({ gmail_remove_dots: false }),
 
     body('password')
       .isString()
       .notEmpty()
       .withMessage(
-        'Şifre gereklidir'
+        'Åifre gereklidir'
       ),
   ],
 
@@ -77,12 +77,12 @@ export const authValidation = {
       .isString()
       .notEmpty()
       .withMessage(
-        'Mevcut şifre gereklidir'
+        'Mevcut ÅŸifre gereklidir'
       ),
 
     passwordValidation(
       'newPassword',
-      'Yeni şifre'
+      'Yeni ÅŸifre'
     ),
 
     body('newPassword')
@@ -98,7 +98,7 @@ export const authValidation = {
             req.body.currentPassword
           ) {
             throw new Error(
-              'Yeni şifre mevcut şifrenizle aynı olamaz'
+              'Yeni ÅŸifre mevcut ÅŸifrenizle aynÄ± olamaz'
             );
           }
 
@@ -116,9 +116,9 @@ export const authValidation = {
       .trim()
       .isEmail()
       .withMessage(
-        'Geçerli bir e-posta adresi giriniz'
+        'GeÃ§erli bir e-posta adresi giriniz'
       )
-      .normalizeEmail(),
+      .normalizeEmail({ gmail_remove_dots: false }),
   ],
 
   // ====================================================
@@ -130,12 +130,12 @@ export const authValidation = {
       .isString()
       .notEmpty()
       .withMessage(
-        'Şifre sıfırlama anahtarı gereklidir'
+        'Åifre sÄ±fÄ±rlama anahtarÄ± gereklidir'
       ),
 
     passwordValidation(
       'password',
-      'Yeni şifre'
+      'Yeni ÅŸifre'
     ),
   ],
 };
